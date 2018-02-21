@@ -22,16 +22,17 @@ class TestActionManager:
 
     def test_next_command(self):
         action_manager = ActionManager()
-        act1 = Action(None, FUNCTIONS.move_camera.function_type, PRIORITY.NORMAL)
-        act2 = Action(None, FUNCTIONS.move_camera.function_type, PRIORITY.NORMAL)
-        act1.commands.append(FUNCTIONS.move_camera([[1, 2]]))
-        act2.commands.append(FUNCTIONS.move_camera([[3, 4]]))
+        move_camera_command = FUNCTIONS.move_camera
+        act1 = Action(None, move_camera_command.function_type, PRIORITY.NORMAL)
+        act2 = Action(None, move_camera_command.function_type, PRIORITY.NORMAL)
+        act1.commands.append(move_camera_command([1, 2]))
+        act2.commands.append(move_camera_command([3, 4]))
 
         action_manager.add_action(act1)
         action_manager.add_action(act2)
 
-        assert action_manager.next_command == FUNCTIONS.move_camera([[1, 2]])
-        assert action_manager.next_command == FUNCTIONS.move_camera([[3, 4]])
-        assert action_manager.next_command is None
+        assert action_manager.next_command() == move_camera_command([1, 2])
+        assert action_manager.next_command() == move_camera_command([3, 4])
+        assert action_manager.next_command() is None
 
 
