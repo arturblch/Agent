@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run agent" type="PythonConfigurationType" factoryName="Python" singleton="true">
+    <option name="INTERPRETER_OPTIONS" value="" />
+    <option name="PARENT_ENVS" value="true" />
+    <envs>
+      <env name="PYTHONUNBUFFERED" value="1" />
+    </envs>
+    <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\python.exe" />
+    <option name="WORKING_DIRECTORY" value="C:/ProgramData/Anaconda3/Lib/site-packages/src/pysc2/pysc2/bin" />
+    <option name="IS_MODULE_SDK" value="false" />
+    <option name="ADD_CONTENT_ROOTS" value="true" />
+    <option name="ADD_SOURCE_ROOTS" value="true" />
+    <module name="Agent" />
+    <option name="SCRIPT_NAME" value="pysc2.bin.agent" />
+    <option name="PARAMETERS" value="--map Simple64 --agent my_agent.Agent --norender" />
+    <option name="SHOW_COMMAND_LINE" value="false" />
+    <option name="EMULATE_TERMINAL" value="false" />
+    <option name="MODULE_MODE" value="true" />
+    <method />
+  </configuration>
+</component>
