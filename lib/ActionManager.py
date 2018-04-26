@@ -6,13 +6,12 @@ class ActionManager:
     """
     def __init__(self):
         self.tick = 0
-        self.cur_action = None
         self.last_actions = dict()
         self.action_queue = []
 
     # TODO(arturblch): check if action was in past
-    def add_action(self, action):
-        heappush(self.action_queue, (action.prioruty, action))
+    def addAction(self, action, prioruty):
+        heappush(self.action_queue, (prioruty, action))
 
     def renew_actions(self, groups, cur_tick):
         for prior, action in self.action_queue:
@@ -28,8 +27,17 @@ class ActionManager:
         if func:
             return func
         elif len(self.action_queue) > 0:
-            self.cur_action = heappop(self.action_queue)
+            _, self.cur_action = heappop(self.action_queue)
             return self.cur_action.next()
         return None
 
+    def popAction(self):
+        _, action= heappop(self.action_queue)
+        return action
 
+    def getQueueLen(self):
+        return len(self.action_queue)
+
+    def printList(self):
+        for _, action in self.action_queue:
+            print(action)

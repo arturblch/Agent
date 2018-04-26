@@ -1,38 +1,63 @@
 import pytest
-from action_manager import ActionManager
-from action import Action
-from action import PRIORITY
 
+from lib.ActionManager import ActionManager
+from model.Action import ActionBuilder
+from model.constants import PRIORITY
 from pysc2.lib.actions import FUNCTIONS
 
 
 class TestActionManager:
     def test_add_action(self):
         action_manager = ActionManager()
-        act1 = Action.buildSCV(30, 30, 34, 34)
-        act2 = Action.buildSCV(30, 30, 34, 34)
-        act3 = Action.buildSCV(30, 3, 34, 34)
+        act1 = ActionBuilder.buildSCV(5, 5)
+        act2 = ActionBuilder.buildSCV(4, 4)
+        act3 = ActionBuilder.buildSCV(3, 3)
 
-        action_manager.add_action(act1)
-        action_manager.add_action(act2)
-        action_manager.add_action(act3)
+        action_manager.addAction(act1, PRIORITY(2))
+        action_manager.addAction(act2, PRIORITY(1))
+        action_manager.addAction(act3, PRIORITY(0))
 
-        assert len(action_manager.action_queue) == 2
-
-
-    def test_next_command(self):
+        assert action_manager.getQueueLen() == 3
+       
+    def test_pop_action(self):
         action_manager = ActionManager()
-        move_camera_command = FUNCTIONS.move_camera
-        act1 = Action(None, move_camera_command.function_type, PRIORITY.NORMAL)
-        act2 = Action(None, move_camera_command.function_type, PRIORITY.NORMAL)
-        act1.commands.append(move_camera_command([1, 2]))
-        act2.commands.append(move_camera_command([3, 4]))
+        act1 = ActionBuilder.buildSCV(5, 5)
+        act2 = ActionBuilder.buildSCV(4, 4)
+        act3 = ActionBuilder.buildSCV(3, 3)
 
-        action_manager.add_action(act1)
-        action_manager.add_action(act2)
+        action_manager.addAction(act1, PRIORITY(2))
+        action_manager.addAction(act2, PRIORITY(1))
+        action_manager.addAction(act3, PRIORITY(0))
 
-        assert action_manager.next_command() == move_camera_command([1, 2])
-        assert action_manager.next_command() == move_camera_command([3, 4])
-        assert action_manager.next_command() is None
+        action_manager.popAction()
+        action_manager.popAction()
+        action_manager.popAction()
 
+        assert action_manager.getQueueLen() == 0
 
+    def test_priority_queue(self):
+        action_manager = ActionManager()
+        act1 = ActionBuilder.buildSCV(5, 5)
+        act2 = ActionBuilder.buildSCV(4, 4)
+        act3 = ActionBuilder.buildSCV(3, 3)
+
+        action_manager.addAction(act1, PRIORITY(2))
+        action_manager.addAction(act2, PRIORITY(1))
+        action_manager.addAction(act3, PRIORITY(0))
+
+        assert action_manager.popAction() == act3
+        assert action_manager.popAction() == act2
+        assert action_manager.popAction() == act1
+
+    def test_print_list(self):
+        action_manager = ActionManager()
+
+        act1 = ActionBuilder.buildSCV(5, 5)
+        act2 = ActionBuilder.buildSCV(4, 4)
+        act3 = ActionBuilder.buildSCV(3, 3)
+
+        action_manager.addAction(act1, PRIORITY(2))
+        action_manager.addAction(act2, PRIORITY(1))
+        action_manager.addAction(act3, PRIORITY(0))
+
+        action_manager.printList()
