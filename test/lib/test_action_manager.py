@@ -60,4 +60,4 @@ class TestActionManager:
         action_manager.addAction(act2, PRIORITY(1))
         action_manager.addAction(act3, PRIORITY(0))
 
-        action_manager.printList()
+        action_manager.printActionList()

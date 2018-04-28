@@ -38,6 +38,6 @@ class ActionManager:
     def getQueueLen(self):
         return len(self.action_queue)
 
-    def printList(self):
+    def printActionList(self):
         for _, action in self.action_queue:
             print(action)
