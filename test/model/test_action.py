@@ -10,6 +10,7 @@ class TestAction:
         act1 = Action()
         act2 = Action()
         act3 = Action()
+        
         act1.addCommand(FUNCTIONS.select_point("select", [1, 2]))
         act2.addCommand(FUNCTIONS.Train_SCV_quick("now"))
         act3.addCommand(FUNCTIONS.select_point("select", [3, 4]))

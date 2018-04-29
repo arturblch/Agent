@@ -38,6 +38,10 @@ class ActionManager:
     def getQueueLen(self):
         return len(self.action_queue)
 
+    def clear(self):
+        self.last_actions.clear()
+        self.action_queue.clear()
+
     def printActionList(self):
         for _, action in self.action_queue:
             print(action)
