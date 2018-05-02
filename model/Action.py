@@ -44,3 +44,20 @@ class ActionBuilder:
         action = Action()
         action.addCommand(FUNCTIONS.move_camera([x1, y1]))
         return action
+
+    @staticmethod
+    def moveScreen(x1, y1):
+        action = Action()
+        action.addCommand(FUNCTIONS.Move_screen("now", [x1, y1]))
+        return action
+
+    @staticmethod
+    def noOp():
+        action = Action()
+        action.addCommand(FUNCTIONS.no_op())
+        return action
+
+    def selectArmy():
+        action = Action()
+        action.addCommand(FUNCTIONS.select_army("select"))
+        return action

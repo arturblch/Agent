@@ -1,4 +1,5 @@
 from heapq import heappush, heappop
+from model.constants import PRIORITY
 
 
 class ActionManager:
@@ -10,7 +11,7 @@ class ActionManager:
         self.action_queue = []
 
     # TODO(arturblch): check if action was in past
-    def addAction(self, action, prioruty):
+    def addAction(self, action, prioruty=PRIORITY(4)):
         heappush(self.action_queue, (prioruty, action))
 
     def renew_actions(self, groups, cur_tick):
