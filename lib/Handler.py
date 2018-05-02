@@ -16,11 +16,14 @@ class BaseHandler:
     def handle(self, obs):
         raise NotImplemented
 
+    def reset(self):
+        raise NotImplemented
+
 
 
 class MoveToBeaconHandler(BaseHandler):
     def __init__(self, actMgr):
-        super(MoveToBeaconHandler).__init__(actMgr)
+        super(MoveToBeaconHandler, self).__init__(actMgr)
         self.selected = False
 
     def handle(self, obs)
@@ -38,3 +41,6 @@ class MoveToBeaconHandler(BaseHandler):
             beacon_center = numpy.mean(beacon, axis=0).round()
             self._actMgr.addAction(ActionBuilder.moveScreen("now", beacon_center))
             return True
+
+    def reset(self):
+        self.selected = False
