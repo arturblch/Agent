@@ -2,8 +2,11 @@ import pytest
 from model.Action import Action, ActionBuilder
 from model.constants import PRIORITY
 
-from pysc2.lib.actions import FUNCTIONS
+from pysc2.lib.actions import FUNCTIONS, _Functions
 
+class _Command:
+    def __init__(self, function):
+        self.function = function
 
 class TestAction:
     def test_equal(self):
@@ -38,3 +41,9 @@ class TestAction:
 
         act.reset()
         assert act.next() == "Command_1"
+
+    def test_repr(self):
+        act = Action("abc")
+        act.addCommand(FUNCTIONS.select_point("select", [1, 2]))
+
+        assert act.__repr__() == "Action<group=abc, names={}>".format([_Functions['select_point']])

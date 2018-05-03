@@ -1,6 +1,7 @@
+import numpy
+
 from pysc2.lib.actions import FUNCTIONS
 from model.Action import ActionBuilder
-import numpy
 
 
 def _xy_locs(mask):
@@ -10,8 +11,8 @@ def _xy_locs(mask):
 
 
 class BaseHandler:
-    def __init__(self, actMgr=None):
-        self._actMgr = actMgr
+    def __init__(self, controler=None):
+        self.controler = controler
 
     def handle(self, obs):
         raise NotImplemented
@@ -19,27 +20,30 @@ class BaseHandler:
     def reset(self):
         raise NotImplemented
 
+    def controlAction(self, action):
+        self.controler._actMgr.addAction(action)
+
 
 
 class MoveToBeaconHandler(BaseHandler):
-    def __init__(self, actMgr):
-        super(MoveToBeaconHandler, self).__init__(actMgr)
+    def __init__(self, controler):
+        super(MoveToBeaconHandler, self).__init__(controler)
         self.selected = False
 
     def handle(self, obs)
         self.selected = FUNCTIONS.Move_screen.id in obs.observation.available_actions
 
         if not self.selected:
-            self._actMgr.addAction(ActionBuilder.selectArmy())
+            self.controlAction(ActionBuilder.selectArmy())
             return False
         else:
             player_relative = obs.observation.feature_screen.player_relative
             beacon = _xy_locs(player_relative == _PLAYER_NEUTRAL)
             if not beacon:
-                self._actMgr.addAction(ActionBuilder.noOp())
+                self.controlAction(ActionBuilder.noOp())
                 return False
             beacon_center = numpy.mean(beacon, axis=0).round()
-            self._actMgr.addAction(ActionBuilder.moveScreen("now", beacon_center))
+            self.controlAction(ActionBuilder.moveScreen("now", beacon_center))
             return True
 
     def reset(self):

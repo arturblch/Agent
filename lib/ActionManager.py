@@ -1,5 +1,7 @@
 from heapq import heappush, heappop
+
 from model.constants import PRIORITY
+from model.Action import ActionBuilder
 
 
 class ActionManager:
@@ -9,12 +11,12 @@ class ActionManager:
         self.tick = 0
         self.last_actions = dict()
         self.action_queue = []
+        self.curAction = None   # Action and Priority
 
-    # TODO(arturblch): check if action was in past
-    def addAction(self, action, prioruty=PRIORITY(4)):
+    def addAction(self, action, prioruty=PRIORITY(3)):
         heappush(self.action_queue, (prioruty, action))
 
-    def renew_actions(self, groups, cur_tick):
+    def renewActions(self, groups, cur_tick):
         for prior, action in self.action_queue:
             group_id = action.group.get_id()
             if group_id in groups.keys():
@@ -23,14 +25,14 @@ class ActionManager:
                 # Groupe has disappeared, remove action
                 self.action_queue.pop((prior, action))
 
-    def next_command(self):
+    def nextCommand(self):
         func = self.cur_action.next() if self.cur_action else None
         if func:
             return func
         elif len(self.action_queue) > 0:
-            _, self.cur_action = heappop(self.action_queue)
+            self.cur_action = self.popAction()
             return self.cur_action.next()
-        return None
+        return ActionBuilder.noOp().next()
 
     def popAction(self):
         _, action= heappop(self.action_queue)

@@ -10,16 +10,25 @@ class Action:
     def __eq__(self, other):
         return self.group == other.group and self.names == other.names
 
+    def __repr__(self):
+        return 'Action<group={}, names={}>'.format(self.group, self.names)
+
+    @property
+    def comandsCount(self):
+        return len(self.commands)
+
     def next(self):
-        command = self.getCommand(self.idn)
-        self.idn += 1
-        return command
+        if self.idn < self.comandsCount:
+            command = self.getCommand(self.idn)
+            self.idn += 1
+            return command
+        return None
 
     def reset(self):
         self.idn = 0
 
     def getCommand(self, idn):
-        if idn >= len(self.commands):
+        if idn >= self.comandsCount:
             return None
         return self.commands[self.idn]
 
@@ -27,8 +36,6 @@ class Action:
         self.commands.append(command)
         self.names.append(getattr(command, 'function', None))
 
-    def __repr__(self):
-        return 'Action<group={}, names={}>'.format(self.group, self.names)
 
     
 class ActionBuilder:
