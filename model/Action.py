@@ -14,21 +14,21 @@ class Action:
         return 'Action<group={}, names={}>'.format(self.group, self.names)
 
     @property
-    def comandsCount(self):
+    def commandsCount(self):
         return len(self.commands)
 
     def next(self):
-        if self.idn < self.comandsCount:
-            command = self.getCommand(self.idn)
-            self.idn += 1
-            return command
-        return None
+        if self.idn >= self.commandsCount:
+            return None
+        command = self.commands[self.idn]
+        self.idn += 1
+        return command
 
     def reset(self):
         self.idn = 0
 
     def getCommand(self, idn):
-        if idn >= self.comandsCount:
+        if idn >= self.commandsCount:
             return None
         return self.commands[self.idn]
 
