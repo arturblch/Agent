@@ -46,5 +46,6 @@ class ActionManager:
         self.action_queue.clear()
 
     def printActionList(self):
-        for _, action in self.action_queue:
-            print(action)
+        sorted_actions = sorted(self.action_queue)
+        for prior, action in sorted_actions:
+            print('priority<{}> - action({})'.format(prior, action))
