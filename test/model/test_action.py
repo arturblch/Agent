@@ -21,14 +21,18 @@ class TestAction:
         assert act1 != act2
         assert act1 == act3
 
-    def test_add_command(self):
+    
+    @pytest.mark.parametrize("test_com, expected_id", [
+        ("Command_1", None),
+        (FUNCTIONS.Train_SCV_quick("now"), 490),
+    ])
+    def test_add_command(self, test_com, expected_id):
         act = Action()
 
-        act.addCommand("Command_1")
-        act.addCommand("Command_2")
+        act.addCommand(test_com)
 
-        assert act.commands == ["Command_1", "Command_2"]
-        assert act.names == [None, None]
+        assert act.commands == [test_com]
+        assert act.ids == [expected_id]
 
     def test_reset(self):
         act = Action()
@@ -46,4 +50,4 @@ class TestAction:
         act = Action("abc")
         act.addCommand(FUNCTIONS.select_point("select", [1, 2]))
 
-        assert act.__repr__() == "Action<group=abc, names={}>".format([_Functions['select_point']])
+        assert act.__repr__() == "Action<group=abc, ids={}>".format([_Functions['select_point']])

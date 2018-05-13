@@ -4,14 +4,14 @@ class Action:
     def __init__(self, group=None):
         self.group = group
         self.idn = 0
-        self.names = []
+        self.ids = []
         self.commands = []  # FunctionCall from pysc2.lib.actions
 
     def __eq__(self, other):
-        return self.group == other.group and self.names == other.names
+        return self.group == other.group and self.ids == other.ids
 
     def __repr__(self):
-        return 'Action<group={}, names={}>'.format(self.group, self.names)
+        return 'Action<group={}, ids={}>'.format(self.group, self.ids)
 
     @property
     def commandsCount(self):
@@ -34,8 +34,10 @@ class Action:
 
     def addCommand(self, command):
         self.commands.append(command)
-        self.names.append(getattr(command, 'function', None))
-
+        if hasattr(command, 'function'):
+            self.ids.append(command.function)
+        else:
+            self.ids.append(None)
 
     
 class ActionBuilder:
