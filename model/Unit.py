@@ -2,10 +2,11 @@ from math import *
 
 
 class Unit:
-    def __init__(self, id, x, y):
-        self.id = id
+    def __init__(self, x=0, y=0, hp=0, idn=-1):
+        self.idn = idn
         self.x = x
         self.y = y
+        self.hp = hp
 
     def get_distance_to(self, x, y):
         return hypot(x - self.x, y - self.y)
@@ -20,3 +21,12 @@ class Unit:
 
     def get_squared_distance_to_unit(self, unit):
         return self.get_squared_distance_to(unit.x, unit.y)
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def getHp(self):
+        return self.hp
