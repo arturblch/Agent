@@ -1,12 +1,14 @@
-from math import *
+from math import hypot
 
 
 class Unit:
-    def __init__(self, x=0, y=0, hp=0, idn=-1):
+    def __init__(self, x=0, y=0, hp=0, invis=False, typeId=0, idn=-1):
         self.idn = idn
         self.x = x
         self.y = y
         self.hp = hp
+        self.invis = invis
+        self.typeId = typeId
 
     def get_distance_to(self, x, y):
         return hypot(x - self.x, y - self.y)
@@ -30,3 +32,9 @@ class Unit:
 
     def getHp(self):
         return self.hp
+
+    def changeInvis(self):
+        self.invis = not self.invis
+
+    def getTypeId(self):
+        return self.typeId
